@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Flip Animation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .number-row {
+            display: flex;
+            gap: 60px;
+/*            margin-bottom: 30px;*/
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .number-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .digits {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .digit {
+            width: 50px;
+            height: 60px;
+            background: #ffd700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .digit.flipping {
+            transform: rotateY(180deg);
+        }
+        
+        .digit-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .digit-front {
+            background: #ffd700;
+            color: #333;
+        }
+        
+        .digit-back {
+            background: #ff6b6b;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .label {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .animate-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+        
+        .animate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .animate-button:active {
+            transform: translateY(0);
+        }
+        
+        .animate-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="animate-button" onclick="startAnimation()">Start Animation</button>
+    
+    <div class="container">
+        <div class="number-row">
+            <div class="number-group">
+                <div class="digits">
+                    <div class="digit" data-original="4">
+                        <div class="digit-face digit-front">4</div>
+                        <div class="digit-face digit-back">Y</div>
+                    </div>
+                    <div class="digit" data-original="3">
+                        <div class="digit-face digit-front">3</div>
+                        <div class="digit-face digit-back">X</div>
+                    </div>
+                    <div class="digit" data-original="4">
+                        <div class="digit-face digit-front">4</div>
+                        <div class="digit-face digit-back">Y</div>
+                    </div>
+                </div>
+                <div class="label">Letter 1</div>
+            </div>
+            
+            <div class="number-group">
+                <div class="digits">
+                    <div class="digit" data-original="3">
+                        <div class="digit-face digit-front">3</div>
+                        <div class="digit-face digit-back">X</div>
+                    </div>
+                    <div class="digit" data-original="3">
+                        <div class="digit-face digit-front">3</div>
+                        <div class="digit-face digit-back">X</div>
+                    </div>
+                    <div class="digit" data-original="3">
+                        <div class="digit-face digit-front">3</div>
+                        <div class="digit-face digit-back">X</div>
+                    </div>
+                </div>
+                <div class="label">Letter 2</div>
+            </div>
+            
+            <div class="number-group">
+                <div class="digits">
+                    <div class="digit" data-original="1">
+                        <div class="digit-face digit-front">1</div>
+                        <div class="digit-face digit-back">Z</div>
+                    </div>
+                    <div class="digit" data-original="1">
+                        <div class="digit-face digit-front">1</div>
+                        <div class="digit-face digit-back">Z</div>
+                    </div>
+                    <div class="digit" data-original="3">
+                        <div class="digit-face digit-front">3</div>
+                        <div class="digit-face digit-back">X</div>
+                    </div>
+                </div>
+                <div class="label">Letter 3</div>
+            </div>
+            
+            <div class="number-group">
+                <div class="digits">
+                    <div class="digit" data-original="4">
+                        <div class="digit-face digit-front">4</div>
+                        <div class="digit-face digit-back">Y</div>
+                    </div>
+                    <div class="digit" data-original="1">
+                        <div class="digit-face digit-front">1</div>
+                        <div class="digit-face digit-back">Z</div>
+                    </div>
+                    <div class="digit" data-original="1">
+                        <div class="digit-face digit-front">1</div>
+                        <div class="digit-face digit-back">Z</div>
+                    </div>
+                </div>
+                <div class="label">Letter 4</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isAnimating = false;
+        
+        async function startAnimation() {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            const button = document.querySelector('.animate-button');
+            button.disabled = true;
+            button.textContent = 'Animating...';
+            
+            // Reset all digits first
+            const allDigits = document.querySelectorAll('.digit');
+            allDigits.forEach(digit => {
+                digit.classList.remove('flipping');
+            });
+            
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            // Step 1: Replace all 1s with Zs
+            await animateDigits('1');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Step 2: Replace all 3s with Xs  
+            await animateDigits('3');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Step 3: Replace all 4s with Ys
+            await animateDigits('4');
+            
+            button.disabled = false;
+            button.textContent = 'Start Animation';
+            isAnimating = false;
+        }
+        
+        async function animateDigits(targetDigit) {
+            const digits = document.querySelectorAll(`[data-original="${targetDigit}"]`);
+            
+            // Start flipping animation
+            digits.forEach((digit, index) => {
+                setTimeout(() => {
+                    digit.classList.add('flipping');
+                }, index * 100); // Stagger the animations
+            });
+            
+            // Wait for all animations to complete
+            await new Promise(resolve => {
+                setTimeout(resolve, Math.max(600, digits.length * 100 + 600));
+            });
+        }
+    </script>
+</body>
+</html>
