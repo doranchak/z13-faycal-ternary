@@ -2,3 +2,5 @@
 Visualization of digit-to-letter substitutions Faycal used for trifid alphabet.  For an episode of "Let's Crack Zodiac".
 
 [View it here.](https://doranchak.github.io/z13-faycal-ternary)
+
+[View trifid alphabet key here.](https://doranchak.github.io/z13-faycal-ternary/trifid-alphabet.html)
